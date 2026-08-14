@@ -26,10 +26,10 @@
     color: var(--text);
   }
   .wrap {
-    width: 1760px;
-    max-width: 1760px;
-    margin: 0 auto;
-    padding: 24px 24px 56px;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 24px;
   }
   p.lead { margin: 0 0 20px; color: var(--muted); line-height: 1.5; }
   .grid { display: block; }
@@ -176,8 +176,9 @@
     overflow: auto;
     max-height: none;
     background: rgba(240, 246, 255, 0.95);
+    -webkit-overflow-scrolling: touch;
     width: 100%;
-  }
+   }
   .matrix-topbar {
     display: flex;
     align-items: center;
