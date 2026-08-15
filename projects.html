@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Research projects at Avans Research Group Digital Education</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #fff; color: #1a1a1a; }
+.wrapper { max-width: 1280px; margin: 0 auto; padding: 36px 40px 48px; }
+
+/* ─── HEADER ─── */
+.header { margin-bottom: 32px; }
+.logo { font-size: 40px; font-weight: 800; letter-spacing: -1.5px; line-height: 1; color: #1a1a1a; }
+
+/* ─── MATRIX OUTER (anchor for absolute band layers) ─── */
+.matrix-outer { position: relative; overflow: visible; padding-bottom: 12px; padding-right: 12px; }
+
+/* ─── LAYER 1: COLUMN BANDS ─────────────────────────────────────────
+   3 vertical strips. Start at top: 0 so they tint the header area too.
+   Start at left: 154px — they do NOT cover the row-label column.
+──────────────────────────────────────────────────────────────────── */
+.col-bands-layer {
+  position: absolute;
+  left: 188px;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 8px;
+  z-index: 1;
+  pointer-events: none;
+}
+.col-band { flex: 1; border-radius: 16px; }
+.empty-col  { background: rgba(255, 255, 255, 0); max-width:75px; !important}
+.AI-col  { background: rgba(255, 102, 113, 0.55); }
+.inclusie-col   { background: rgba(168, 79, 255, 0.55); }
+
+/* ─── LAYER 2: ROW BANDS ─────────────────────────────────────────────
+   3 horizontal strips. Start at left: 0 so they ALSO cover the row-label
+   column — this is what creates the visible peach on the left side.
+   Start at top: 70px — they do NOT cover the column-header row.
+──────────────────────────────────────────────────────────────────── */
+.row-bands-layer {
+  position: absolute;
+  left: -30px;   /* 30px beyond the left edge */
+  top: 88px;     /* 80px header row + 8px row-gap */
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  z-index: 2;
+  pointer-events: none;
+}
+.row-band {
+  flex: 1;
+  border-radius: 16px;
+  background: rgba(255, 210, 180, 0.35);
+}
+.empty-row  {  background: rgba(255, 255, 255, 0); max-height: 75px; !important; }
+.blended-row  { background: rgba(223, 190, 255, 0.55); }
+.flexibel-row   { background: rgba(0, 153, 255, 0.55); }
+
+/* ─── MATRIX GRID (transparent — sits above bands) ─── */
+.matrix {
+  display: grid;
+  grid-template-columns: 180px 75px repeat(2, 1fr);
+  grid-template-rows: 80px 75px repeat(2, 160px);
+  column-gap: 8px;
+  row-gap: 8px;
+  position: relative;
+  z-index: 5;
+}
+
+/* Column headers */
+.col-header {
+  padding: 0 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a1a;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+  background: transparent;
+}
+.empty-col-header {
+  max-width: 75px; !important
+}
+
+/* Row headers: large bold floating text */
+.row-header {
+  padding: 0 20px 0 15px;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a1a;
+  background: transparent;
+  line-height: 1.25;
+  letter-spacing: -0.3px;
+}
+.empty-row-header {
+  max-height: 75px; !important
+}
+
+/* Cells: positioning context for circles */
+.cell {
+  position: relative;
+  overflow: visible;
+}
+.empty-cell {
+  max-height: 75px; !important
+}
+/* ─── CIRCLES ─── */
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  transition: transform 0.14s ease, box-shadow 0.14s ease;
+  outline: none;
+  z-index: 10;
+  border: 2px solid #ffffff;
+}
+.circle:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+  box-shadow: 0 4px 20px rgba(80, 10, 20, 0.25);
+}
+.circle:focus-visible {
+  box-shadow: 0 0 0 3px rgba(155, 35, 53, 0.4);
+}
+.circle.active {
+  transform: translate(-50%, -50%) scale(1.1);
+  box-shadow: 0 0 0 3px rgba(92, 16, 32, 0.5);
+}
+
+/* ─── POPUP OVERLAY ─── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 10, 12, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+  padding: 20px;
+}
+.overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.popup {
+  background: #fff;
+  border-radius: 18px;
+  width: 420px;
+  max-width: 100%;
+  overflow: hidden;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.22);
+  transform: scale(0.94) translateY(10px);
+  transition: transform 0.22s ease;
+  position: relative;
+}
+.overlay.open .popup {
+  transform: scale(1) translateY(0);
+}
+.popup-image-wrap {
+  width: 100%;
+  height: 170px;
+  overflow: hidden;
+  background: #f5e8ea;
+  position: relative;
+}
+.popup-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.popup-image-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #bba0a5;
+  letter-spacing: 0.5px;
+}
+.popup-img-warning {
+  display: none;
+  font-size: 11px;
+  color: #b05000;
+  background: #fff8f0;
+  border: 1px solid #f5d0a0;
+  border-radius: 6px;
+  padding: 6px 10px;
+  margin: 8px 22px 0;
+  line-height: 1.4;
+}
+.popup-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.88);
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555;
+  z-index: 5;
+  transition: background 0.12s;
+}
+.popup-close:hover { background: #fff; color: #111; }
+.popup-body { padding: 18px 22px 22px; }
+.popup-meta {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #9B2335;
+  margin-bottom: 7px;
+}
+.popup-title {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.popup-desc {
+  font-size: 13.5px;
+  color: #555;
+  line-height: 1.65;
+  margin-bottom: 18px;
+}
+.popup-link {
+  display: inline-block;
+  padding: 9px 20px;
+  background: #9B2335;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.popup-link:hover { background: #5C1020; }
+
+/* ─── LEGEND ─── */
+.bottom-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-top: 48px;
+  align-items: start;
+}
+.legends { display: flex; flex-direction: column; gap: 56px; max-width: 420px; }
+.legend { display: flex; flex-direction: column; gap: 8px; }
+.legend-label { font-size: 16px; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
+.legend-items { display: flex; align-items: center; justify-content: space-between; padding: 0 5px; }
+.legend-item { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+.legend-item span { font-size: 10px; color: #999; display: block; min-height: 13px; line-height: 13px; }
+.legend-circle { border-radius: 50%; flex-shrink: 0; }
+.legend-desc { display: flex; justify-content: space-between; margin-top: 10px; padding: 0 5px; }
+.legend-desc-item { font-size: 16px; color: #777; line-height: 1.4; }
+.legend-desc-item.left { text-align: left; width: 160px; }
+.legend-desc-item.right { text-align: right; width: 130px; }
+
+/* ─── FOOTNOTES ─── */
+.footnotes { display: flex; flex-direction: column; gap: 7px; padding-right: 40px; }
+.footnote { font-size: 18px; color: #777; line-height: 1.5; }
+.footnote strong { color: #444; }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="header">
+    <div class="logo">Projects at Avans Research Group Digital Education</div>
+  </div>
+
+  <!-- Matrix outer: contains the band layers + the grid -->
+  <div class="matrix-outer" id="matrix-outer">
+
+    <!-- Layer 1: vertical column bands (full height, including header) -->
+    <div class="col-bands-layer">
+      <div class="col-band empty-col"></div>
+      <div class="col-band AI-col"></div>
+      <div class="col-band inclusie-col"></div>
+    </div>
+
+    <!-- Layer 2: horizontal row bands (data area only, on top of col bands) -->
+    <div class="row-bands-layer">
+      <div class="row-band empty-row"></div>
+      <div class="row-band blended-row"></div>
+      <div class="row-band flexibel-row"></div>
+    </div>
+
+    <!-- Grid: transparent cells sit above the bands -->
+    <div class="matrix" id="matrix">
+      <div class="corner"></div>
+      <div class="col-header empty-col-header"></div>
+      <div class="col-header">AI</div>
+      <div class="col-header">Inclusie</div>
+
+      <div class="row-header empty-row-header"></div>
+      <div class="cell empty-cell" data-row="0" data-col="0"></div>
+      <div class="cell empty-cell" data-row="0" data-col="1"></div>
+      <div class="cell empty-cell" data-row="0" data-col="2"></div>
+
+      <div class="row-header">Blended</div>
+      <div class="cell" data-row="1" data-col="0"></div>
+      <div class="cell" data-row="1" data-col="1"></div>
+      <div class="cell" data-row="1" data-col="2"></div>
+
+      <div class="row-header">Flexibel</div>
+      <div class="cell" data-row="2" data-col="0"></div>
+      <div class="cell" data-row="2" data-col="1"></div>
+      <div class="cell" data-row="2" data-col="2"></div>
+    </div>
+
+  </div><!-- /matrix-outer -->
+
+  <div class="bottom-section">
+    <!-- Legends -->
+    <div class="legends">
+
+      <!-- Legend 1: Colour -->
+      <div class="legend">
+        <span class="legend-label">Colour</span>
+        <div class="legend-items">
+          <div class="legend-item">
+            <div class="legend-circle" style="width:32px;height:32px;background:#FFB4B4;"></div>
+            <span>Light</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-circle" style="width:32px;height:32px;background:#FF6464;"></div>
+            <span></span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-circle" style="width:32px;height:32px;background:#D63C3C;"></div>
+            <span></span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-circle" style="width:32px;height:32px;background:#BD0A0A;"></div>
+            <span></span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-circle" style="width:32px;height:32px;background:#8D0202;"></div>
+            <span>Dark</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Legend 2: Size -->
+      <div class="legend">
+        <span class="legend-label">Size</span>
+        <div class="legend-items">
+          <div class="legend-item">
+            <div class="legend-circle" style="width:14px;height:14px;background:#8D0202;"></div>
+            <span>Small</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-circle" style="width:22px;height:22px;background:#8D0202;"></div>
+            <span></span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-circle" style="width:32px;height:32px;background:#8D0202;"></div>
+            <span></span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-circle" style="width:44px;height:44px;background:#8D0202;"></div>
+            <span></span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-circle" style="width:58px;height:58px;background:#8D0202;"></div>
+            <span>Large</span>
+          </div>
+        </div>
+        <div class="legend-desc">
+          <div class="legend-desc-item left">Within a programme, service or research group</div>
+          <div class="legend-desc-item right">Avans-wide and/or external</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Footnotes 
+    <div class="footnotes">
+      <div class="footnote"><strong>Consider</strong> Projects that explore AI, mapping out what it is, what it does, and what it means for education.</div>
+      <div class="footnote"><strong>Develop</strong> Projects that actively work with AI to design or build, including tools, environments or AI applications.</div>
+      <div class="footnote"><strong>Implement</strong> Projects that deploy AI in an educational context. The focus is on use, adoption and effect.</div>
+      <div class="footnote"><strong>Professionalize</strong> Projects aimed at developing the competencies of teachers, staff or students to work with AI.</div>
+    </div>
+  </div>
+</div> -->
+
+<!-- Popup overlay -->
+<div class="overlay" id="overlay" aria-modal="true" role="dialog" aria-labelledby="popup-title-el">
+  <div class="popup" id="popup">
+    <button class="popup-close" id="popup-close-btn" aria-label="Close">&#x2715;</button>
+    <div class="popup-image-wrap" id="popup-img-wrap">
+      <div class="popup-image-placeholder" id="popup-img-placeholder">No image</div>
+      <img id="popup-img" src="" alt="" style="display:none;">
+    </div>
+    <div class="popup-img-warning" id="popup-img-warning"></div>
+    <div class="popup-body">
+      <div class="popup-meta" id="popup-meta"></div>
+      <div class="popup-title" id="popup-title-el"></div>
+      <div class="popup-desc" id="popup-desc"></div>
+      <a class="popup-link" id="popup-link" href="#" target="_blank" rel="noopener">Meer informatie &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+//  ✏️  CONFIG — Edit this section to add or update your projects
+// ================================================================
+//
+//  Each project object has these fields:
+//
+//  row    : 0 = Geen
+//	     1 = Blended
+//           2 = Flexibel
+//
+//  col    : 0 = Geen
+//	     1 = AI
+//           2 = Inclusie
+//
+//  size   : 1 = Nano (smallest)  →  5 = Macro (largest)
+//
+//  shade  : 1 = lightest pink  →  5 = darkest red/crimson
+//
+//  x, y   : position of the circle centre within its cell
+//           as a percentage (0–100). e.g. x:50, y:50 = dead centre
+//
+//  title       : project title shown in the popup
+//  description : short description shown in the popup
+//  image       : URL to an image (leave as '' if no image)
+//  link        : URL for the "More information" button (leave as '' to hide it)
+//
+// ================================================================
+
+const PROJECTS = [
+
+  // ── Blended ──────────────────────────────────
+  {
+    row: 1, col: 0, size: 5, shade: 4,
+    x: 30, y: 30,
+    title: 'LeesEvolutie',
+    description: 'Het doel van dit NWA-ORC-project is het Nederlandse leesonderwijs structureel te verbeteren zodat het leesonderwijs: 1) jonge lezers opleidt die in staat zijn wat ze lezen cognitief en affectief te verwerken en voor zichzelf betekenis te geven, wat helpt om te participeren en te handelen in de steeds digitaler wordende samenleving waarin ze opgroeien, en 2) digitale media zinvol en verantwoord inzet.',
+    image: 'https://lectoraatdigitaledidactiek.nl/wp-content/uploads/2026/08/LeesEvolutie.webp',
+    link: 'https://lectoraatdigitaledidactiek.nl/projecten/leesevolutie/'
+  },
+  {
+    row: 1, col: 2, size: 3, shade: 4,
+    x: 30, y: 30,
+    title: 'Inclusief Blended Hoger Onderwijs',
+    description: 'Hier volgt binnenkort een beschrijving over dit project, waarbinnen Rinotha Senathirajah promotie-onderzoek uitvoert.',
+    image: '',
+    link: 'https://lectoraatdigitaledidactiek.nl/projecten/inclusief-blended-hoger-onderwijs/'
+  },
+  // ── Flexibel ──────────────────────────────────
+  {
+    row: 2, col: 0, size: 4, shade: 4,
+    x: 30, y: 30,
+    title: 'SELFLEX',
+    description: 'Het SELFLEX-consortium onderzoekt hoe instructieontwerp en technologie inzetbaar zijn om zelfregulerend leren van hogeronderwijsstudenten te bevorderen, rekening houdend met de leeromgeving en hun motivatie.',
+    image: 'https://lectoraatdigitaledidactiek.nl/wp-content/uploads/2026/08/foto20SELFLEX20consortium.webp',
+    link: 'https://lectoraatdigitaledidactiek.nl/projecten/selflex/'
+  },
+  // ── AI ──────────────────────────────────
+  {
+    row: 0, col: 1, size: 2, shade: 4,
+    x: 30, y: 30,
+    title: 'Professionele identiteit van docenten in het AI-tijdperk',
+    description: 'Vanuit Regieorgaan SIA ontving Martine Schilder een fellowship-beurs voor docent-onderzoekers om dit project uit te voeren van september 2026 tot februari 2028.',
+    image: 'https://lectoraatdigitaledidactiek.nl/wp-content/uploads/2026/08/Picture1-300x250.jpg',
+    link: 'https://lectoraatdigitaledidactiek.nl/projecten/professionele-identiteit-van-docenten-in-het-ai-tijdperk/'
+  }
+];
+
+// ================================================================
+//  🔧 RENDERING — No need to edit below this line
+// ================================================================
+
+const COLORS = ['#FFB4B4', '#FF6464', '#D63C3C', '#BD0A0A', '#8D0202'];
+const SIZES  = [22, 34, 48, 62, 80]; // diameter in px
+
+const ROW_LABELS = ['', 'Blended', 'Flexibel'];
+const COL_LABELS = ['', 'AI', 'Inclusie'];
+
+function renderCircles() {
+  const cells = document.querySelectorAll('.cell[data-row]');
+  cells.forEach(cell => {
+    const r = +cell.dataset.row;
+    const c = +cell.dataset.col;
+    PROJECTS
+      .filter(p => p.row === r && p.col === c)
+      .forEach(p => {
+        const size  = SIZES[Math.min(Math.max(p.size - 1, 0), 4)];
+        const color = COLORS[Math.min(Math.max(p.shade - 1, 0), 4)];
+        const el = document.createElement('div');
+        el.className = 'circle';
+        el.style.cssText = `width:${size}px;height:${size}px;background:${color};left:${p.x}%;top:${p.y}%;`;
+        el.setAttribute('role', 'button');
+        el.setAttribute('tabindex', '0');
+        el.setAttribute('aria-label', p.title);
+        el.addEventListener('click', () => toggle(p, el));
+        el.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(p, el); } });
+        cell.appendChild(el);
+      });
+  });
+}
+
+let activeEl = null;
+
+function toggle(project, el) {
+  if (activeEl === el) { closePopup(); return; }
+  openPopup(project, el);
+}
+
+function openPopup(project, el) {
+  if (activeEl) activeEl.classList.remove('active');
+  activeEl = el;
+  el.classList.add('active');
+
+  //document.getElementById('popup-meta').textContent =
+  //  `${ROW_LABELS[project.row]}  ·  ${COL_LABELS[project.col]}`;
+  document.getElementById('popup-meta').textContent =
+    [ROW_LABELS[project.row], COL_LABELS[project.col]]
+        .filter(Boolean)
+        .join(' · ');
+  document.getElementById('popup-title-el').textContent = project.title;
+  document.getElementById('popup-desc').textContent     = project.description;
+
+  // Image
+  const imgEl     = document.getElementById('popup-img');
+  const phEl      = document.getElementById('popup-img-placeholder');
+  const wrapEl    = document.getElementById('popup-img-wrap');
+  const warningEl = document.getElementById('popup-img-warning');
+  const MAX_KB    = 500;
+
+  warningEl.style.display = 'none';
+  warningEl.textContent = '';
+
+  if (project.image) {
+    imgEl.style.display = 'block';
+    phEl.style.display  = 'none';
+    wrapEl.style.display = '';
+
+    // Check file size via HEAD request
+    fetch(project.image, { method: 'HEAD' })
+      .then(res => {
+        const bytes = parseInt(res.headers.get('Content-Length') || '0', 10);
+        if (bytes > MAX_KB * 1024) {
+          const kb = Math.round(bytes / 1024);
+          warningEl.textContent = `⚠️ Image is ${kb} KB — recommended maximum is ${MAX_KB} KB. It may load slowly.`;
+          warningEl.style.display = 'block';
+        }
+      })
+      .catch(() => {}); // silently ignore if HEAD is blocked by CORS
+
+    // Check dimensions after load
+    imgEl.onload = () => {
+      const w = imgEl.naturalWidth;
+      const h = imgEl.naturalHeight;
+      if (w > 2400 || h > 1200) {
+        const msg = `⚠️ Image is ${w}×${h}px — recommended maximum is 2400×1200px.`;
+        warningEl.textContent = warningEl.textContent ? warningEl.textContent + ' ' + msg : msg;
+        warningEl.style.display = 'block';
+      }
+    };
+    imgEl.src = project.image;
+  } else {
+    imgEl.style.display = 'none';
+    phEl.style.display  = 'flex';
+    wrapEl.style.display = '';
+  }
+
+  // Link
+  const linkEl = document.getElementById('popup-link');
+  if (project.link) {
+    linkEl.href = project.link;
+    linkEl.style.display = 'inline-block';
+  } else {
+    linkEl.style.display = 'none';
+  }
+
+  document.getElementById('overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('popup-close-btn').focus();
+}
+
+function closePopup() {
+  document.getElementById('overlay').classList.remove('open');
+  if (activeEl) { activeEl.classList.remove('active'); activeEl.focus(); }
+  activeEl = null;
+  document.body.style.overflow = '';
+}
+
+document.getElementById('overlay').addEventListener('click', e => {
+  if (e.target === document.getElementById('overlay')) closePopup();
+});
+document.getElementById('popup-close-btn').addEventListener('click', closePopup);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closePopup(); });
+
+renderCircles();
+</script>
+</body>
+</html>
