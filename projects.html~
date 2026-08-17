@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Onderzoeksprojecten van het lectoraat Digitale Didactiek</title>
+<title>Research projects at Avans Research Group Digital Education</title>
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f2f7fd; color: #1a1a1a; }
@@ -452,16 +452,8 @@ const PROJECTS = [
 
   // ── Blended ──────────────────────────────────
   {
-    row: 0, col: 0, size: 5, shade: 3,
-    x: 25, y: 20,
-    title: 'Lectorenplatform PRIO',
-    description: 'Lector Esther van der Stappen zit in het bestuur van lectorenplatform PRIO, waarin het Nederlandse praktijkgerichte ICT-onderzoek is verbonden. Zij is binnen het platform verantwoordelijk voor het thema Learning & Education. PRIO wordt gefinancierd door Regieorgaan SIA. Meer informatie op https://www.platformprio.nl.',
-    image: '',
-    link: 'https://lectoraatdigitaledidactiek.nl/projecten/lectorenplatform-prio/'
-  },
-  {
     row: 1, col: 0, size: 5, shade: 5,
-    x: 30, y: 50,
+    x: 30, y: 30,
     title: 'LeesEvolutie',
     description: 'Het doel van dit NWA-ORC-project is het Nederlandse leesonderwijs structureel te verbeteren zodat het leesonderwijs: 1) jonge lezers opleidt die in staat zijn wat ze lezen cognitief en affectief te verwerken en voor zichzelf betekenis te geven, wat helpt om te participeren en te handelen in de steeds digitaler wordende samenleving waarin ze opgroeien, en 2) digitale media zinvol en verantwoord inzet.',
     image: 'https://lectoraatdigitaledidactiek.nl/wp-content/uploads/2026/08/LeesEvolutie.webp',
@@ -478,7 +470,7 @@ const PROJECTS = [
   // ── Flexibel ──────────────────────────────────
   {
     row: 2, col: 0, size: 4, shade: 4,
-    x: 30, y: 50,
+    x: 30, y: 30,
     title: 'SELFLEX',
     description: 'Het SELFLEX-consortium onderzoekt hoe instructieontwerp en technologie inzetbaar zijn om zelfregulerend leren van hogeronderwijsstudenten te bevorderen, rekening houdend met de leeromgeving en hun motivatie.',
     image: 'https://lectoraatdigitaledidactiek.nl/wp-content/uploads/2026/08/foto20SELFLEX20consortium.webp',
@@ -487,29 +479,12 @@ const PROJECTS = [
   // ── AI ──────────────────────────────────
   {
     row: 0, col: 1, size: 2, shade: 2,
-    x: 30, y: 20,
+    x: 30, y: 30,
     title: 'Professionele identiteit van docenten in het AI-tijdperk',
     description: 'Vanuit Regieorgaan SIA ontving Martine Schilder een fellowship-beurs voor docent-onderzoekers om dit project uit te voeren van september 2026 tot februari 2028.',
     image: 'https://lectoraatdigitaledidactiek.nl/wp-content/uploads/2026/08/Picture1-300x250.jpg',
     link: 'https://lectoraatdigitaledidactiek.nl/projecten/professionele-identiteit-van-docenten-in-het-ai-tijdperk/'
-  },
-
-  {
-    row: 0, col: 1, size: 5, shade: 2,
-    x: 55, y: 30,
-    title: 'Betrouwbare interactie tussen men en algoritme',
-    description: 'Discussies over AI richten zich steeds vaker op de impact van recommender­systemen, verantwoord ontwerp essentieel is. Dit project ontwikkelt een pattern library met gevalideerde interactiemogelijkheden, zodat ontwerpers transparante, eerlijke en effectieve AI-systemen kunnen realiseren.',
-    image: '',
-    link: 'https://lectoraatdigitaledidactiek.nl/projecten/betrouwbare-interactie-tussen-mens-en-algoritme/'
-},
-  {
-    row: 1, col: 1, size: 1, shade: 1,
-    x: 15, y: 30,
-    title: 'Complexe professionele gesprekken oefenen met een chatbot',
-    description: 'In dit project onderzoeken we het ontwerp en de configuratie van een chatbot waarmee studenten complexe professionele gesprekken veilig en gesimuleerd kunnen oefenen.',
-    image: '',
-    link: 'https://lectoraatdigitaledidactiek.nl/complexe-professionele-gesprekken-oefenen-met-een-chatbot/',
-}
+  }
 ];
 
 // ================================================================
