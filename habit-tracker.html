@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gewoontetracker</title>
+<meta name="application-name" content="Gewoontetracker">
+<meta name="apple-mobile-web-app-title" content="Gewoontetracker">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#3b6d11">
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAgAAAAIACAYAAAD0eNT6AAARlElEQVR4nO3c3XXbVhqGUSgrDTjtOC05xSQtJe1MSvBcOLIpmaRAEOec72fv65kYALnwPoBkv2xM8/nLp6+rjwEgsn/++vdl9TF04UKfyMADjCUQzuNCHmTsAWIQBce4aDsZfIAcBME+LtIdRh8gNzFwmwvzjtEHqEkMvOVibEYfoBsx0DwADD9Ab51DoN2JG30ArukWA21O1vADsEeXECh/koYfgCOqh0DZkzP8AJyhagiUOynDD8AI1UKgzMkYfgBmqBICv6w+gDMYfwBmqbI5qSumyocAQE6Z3wakPHDDD0AkGUMg3Y8AjD8A0WTcplQBkPECA9BDto1K8coi20UFoLcMPxII/wbA+AOQTYbtCh0AGS4gAFwTfcNCvqKIftEA4BERfyQQ7g2A8QegmojbFioAIl4gADhDtI0LEwDRLgwAnC3S1oUIgEgXBABGirJ5ywMgyoUAgFkibN/SAIhwAQBghdUbuCwAVp84AKy2cguXBIDxB4BvVm3i9AAw/gDw1optnBoAxh8Arpu9kdMCwPgDwH0zt3JKABh/ANhn1mYODwDjDwCPmbGdQwPA+APAMaM3dFgAGH8AeM7ILV3+TwEDAPMNCQBP/wBwjlGbenoAGH8AONeIbT01AIw/AIxx9sb6HQAAaOi0APD0DwBjnbm1pwSA8QeAOc7a3KcDwPgDwFxnbK/fAQCAhp4KAE//ALDGsxvsDQAANHQ4ADz9A8Baz2zxoQAw/gAQw9FN9iMAAGjo4QDw9A8AsRzZZm8AAKChhwLA0z8AxPToRnsDAAAN7Q4AT/8AENsjW+0NAAA0tCsAPP0DQA57N9sbAABo6MMA8PQPALns2W5vAACgIQEAAA3dDQCv/wEgp4823BsAAGjoZgB4+geA3O5tuTcAANCQAACAhq4GgNf/AFDDrU33BgAAGhIAANDQTwHg9T8A1HJt270BAICGBAAANPQmALz+B4Ca3m+8NwAA0JAAAICGBAAANPQ9APz8HwBqu9x6bwAAoCEBAAANCQAAaEgAAEBDv2ybXwAEgC5eN98bAABoSAAAQEMCAAAaEgAA0JAAAICGBAAANCQAAKChF/8GAAD04w0AADQkAACgIQEAAA0JAABoSAAAQEMCAAAaEgAA0JAAAICGBAAANCQAAKAhAQAADQkAAGhIAABAQwIAABoSAADQkAAAgIYEAAA0JAAAoCEBAAANCQAAaEgAAEBDAgAAGhIAANCQAACAhgQAADQkAACgIQEAAA0JAABoSAAAQEMCAAAaEgAA0JAAAICGBAAANCQAAKAhAQAADQkAAGhIAABAQwIAABoSAADQkAAAgIYEAAA0JAAAoCEBAAANCQAAaEgAAEBDAgAAGhIAANCQAACAhgQAADQkAACgoV9XHwAAY/z95/8+/N/8/sdvE46EiF4+f/n0dfVBAHCOPaN/ixjoRQAAFPDM8L8nBHrwOwAAyZ05/iP+e8QkAAASGzXWIqA+AQCQ1OiRFgG1CQCAhGaNswioSwAAJDN7lEVATQIAIJFVYywC6hEAAEmsHuHVfz7nEgAACRhfziYAANhNiNQhAACCM7qMIAAAAjP+jCIAAIKKOv5Rj4vHCACAgIwsowkAgGCMPzMIAABoSAAABOLpn1kEAEAQxp+ZBABAAMaf2QQAwGLGnxUEAMBCxp9VBAAAD/n9j99WHwInEAAAi3j6ZyUBALCA8Wc1AQAwWebx9/q/DgEAMFHm8acWAQAwSfbx9/RfiwAAmMD4E40AAOAu41+TAAAYLPPTv/GvSwAADGT8iUoAAAxi/IlMAAAMkHn86UEAAJws+/h7+u9BAADwnfHvQwAAnCjz07/x70UAAJzE+JOJAAA4gfEnGwEA8KTM409fAgDgCdnH39N/XwIAoCnj35sAADgo89O/8UcAABxg/MlOAAA8yPhTgQAAeEDm8YdLAgBgp+zj7+mfSwIAYAfjTzUCAKA44881AgDgA5mf/o0/twgAgDuMP1UJAIAbjD+VCQCAKzKPP+whAADeyT7+nv7ZQwAAFGL82UsAAFzI/PRv/HmEAAD4j/GnEwEAsBl/+hEAQHuZxx+OEgBAa9nH39M/RwkAgKSMP88QAEBbmZ/+jT/PEgBAS8af7gQA0I7xBwEANJN5/OFMAgBoI/v4e/rnTAIAaMH4w1sCACA4488IAgAoL/PTv/FnFAEAlGb84ToBAJRl/OE2AQCUlHn8YQYBAJSTffw9/TODAAAIxPgziwAASsn89G/8mUkAAGUYf9hPAAAlGH94jAAA0ss8/rCKAABSyz7+nv5ZRQAALGL8WUkAAGllfvo3/qwmAICUjD88RwAA6Rh/eJ4AAFLJPP4QiQAA0sg+/p7+iUQAACkYfziXAAAYzPgTkQAAwsv89G/8iUoAAKEZfxhDAABhGX8YRwAAIWUef8hAAADhZB9/T/9kIAAATmT8yUIAAKFkfvo3/mQiAIAwjD/MIwCAEIw/zCUAgOUyjz9kJQCApbKPv6d/shIAAAcZfzITAMAymZ/+jT/ZCQBgCeMPawkAYDrjD+sJAGCqzOMPlQgAYJrs4+/pn0oEADCF8YdYBADAB4w/FQkAYLjMT//Gn6oEADCU8YeYBAAwjPGHuH5dfQDEtucG7kbJNZnHHzp4+fzl09fVB0Esz9y4xQDbln/8fY/pwBsAvjvjpv3633ADJSvfXbrwOwBs23b+E1v2J0COy/zZG386EQAMu2FnHgKOyfyZG3+6EQDNjb5hZx4EHpP5szb+dCQAGpt1w848DOzjM4Z8BEBTs2/YBqKu7J+tp3+6EgANrbphZx8K6jH+dCYAmlk9wqv/fM6V+fM0/nQnAJgu82jwQ+bP0fiDAGgl0g070rHwuMyfn/GHbwQAy2Qekc58blCDAGApY5JL9s/L0z/8IACaiHzjjnxs/JD9czL+8JYAIITs40Jsxh9+JgAIQwTElfmzMf5wnQAglMxDU1Xmz8T4w20CgHAyD041mT8L4w/3CQBCyjw8VfgMoDYBQFgGaJ3s197TP3xMABBa9iFiPuMP+wgAwhMBc2W+3sYf9hMATWS/MWYepUwyX+fs33GYTQCQRuZxyiDz9TX+8DgBQCqZRyoy1xX6EQCNVHlKMlbnyn49q3yvYTYBQErZR4tzGH84TgA0U+mGKQKel/kaVvouwwoCoKFKN87MA7Za5mtX6TsMqwiApirdQDMP2SqZr1ml7y6sJAAaq3QjzTxos7lWwLYJgPZEQC/Zr1Gl7yusJgAodVPNPnAjZb82lb6nEIEAYNu2WjfX7EPHzyp9PyEKAcB3lW6yIuCtzNej0vcSIhEAvFHpZpt59M6U+TpU+j5CNAKAn1S66WYevzNkPv9K30OISABwVaWbb+YRfEbX8wb2EQDcJALyyn6+lb57EJUA4K5KN+Lso9hFpe8cRCYA+FClG3KHCMh8jpW+axCdAGCXSjfmzAP5kcznVuk7BhkIAHardIPOPJS3ZD6nSt8tyEIA8JBKN+rMg/lepXMB5hAAPEwExJL9HCp9nyATAcAhlW7a2Qc0s0rfI8hGAHBYpZt31gjIetzbVuv7AxkJAJ5S6SaebUyzHe+lSt8byEoA8LRKN/Mso5rlOK+p9H2BzAQAp6h0U48+rtGPD8hBAHAaETBe1OPaq9J3BLITAJyq0g0+2thGO55HVfpuQAUCgNNVutFnH90oKn0noAoBwBCVbvgRIiDCMRxV6bsAlQgAhql04185wMYfGEEAMFSlAVgxxMYfGEUAMFylIZg5yJnHH4hPADCFCIj3Z4xU6fOGqgQA01QahewDPVKlzxkqEwBMVWkcRkVA5rio9PlCdQKA6SqNxNljbfyBWQQAS1Qai7NG2/gDMwkAlqk0Gs+Od+bxB3ISACwlAvKPf6XPEDoRACxXaUCyj/mjKn120I0AIIRKQ/JIBGQOhkqfGXQkAAij0qDsGXbjD6wkAAil0rDcG3jjD6wmAAin0sBcG/rM4w/UIQAIqWoEZB//Sp8LdPfy+cunr6sPAm7JPpiVGH+oxRsAQjM6MfgcoB4BQHjGZy3XH2oSAKRghNZw3aEuAUAaxmgu1xtqEwCkYpQAziEASEcEjOcaQ30CgJQM1DiuLfQgAEjLUJ3PNYU+BACpGazzuJbQiwAgPcP1PNcQ+hEAlGDAAB4jAChDBBzjukFPAoBSjNljXC/oSwBQjlHbx3WC3gQAJRm3+1wfQABQlpG7znUBtk0AUJyxA7hOAFCeCPjBtQBeCQBaMHyuAfCWAKCNzgPY+dyB6wQArXQcwo7nDHxMANBOp0HsdK7AYwQALXUYxg7nCBwnAGjLQAKdCQBaqxoBVc8LOI8AoL1qY1ntfIAxBABsdUazynkA4wkA+E/28cx+/MBcAgAuZB3RrMcNrCMA4B1jCnQgAOCKTBGQ6ViBOAQA3JBhWDMcIxCTAIA7Ig9s5GMD4hMA8IGIQxvxmIBcBADsEGlwIx0LkJcAgJ0ML1CJAIAHrI6A1X8+UIcAgAetGmHjD5xJAMABs8fY+ANnEwBw0KxRNv7ACAIAnjB6nI0/MIoAgCeNGmnjD4wkAOAEZ4+18QdGe/n85dPX1QcBlfz95/8O/38NPzCLAICB9sSA0QdWEAAA0JDfAQCAhgQAADQkAACgIQEAAA0JAABoSAAAQEMCAAAaEgAA0JAAAICGBAAANCQAAKAhAQAADQkAAGhIAABAQwIAABoSAADQkAAAgIYEAAA0JAAAoCEBAAANCQAAaEgAAEBDAgAAGhIAANCQAACAhgQAADQkAACgIQEAAA0JAABoSAAAQEMCAAAaEgAA0JAAAICGBAAANCQAAKAhAQAADQkAAGhIAABAQwIAABoSAADQkAAAgIYEAAA0JAAAoCEBAAANCQAAaEgAAEBDAgAAGhIAANCQAACAhgQAADQkAACgoV/++evfl9UHAQDM889f/754AwAADQkAAGhIAABAQwIAABoSAADQkAAAgIYEAAA09Mu2ffv7gKsPBAAY73XzvQEAgIYEAAA0JAAAoCEBAAANfQ8AvwgIALVdbr03AADQkAAAgIYEAAA09CYA/B4AANT0fuO9AQCAhgQAADT0UwD4MQAA1HJt270BAICGBAAANHQ1APwYAABquLXp3gAAQEMCAAAauhkAfgwAALnd23JvAACgobsB4C0AAOT00YZ7AwAADQkAAGjowwDwYwAAyGXPdnsDAAAN7QoAbwEAIIe9m+0NAAA0tDsAvAUAgNge2WpvAACgoYcCwFsAAIjp0Y32BgAAGno4ALwFAIBYjmyzNwAA0NChAPAWAABiOLrJh98AiAAAWOuZLfYjAABo6KkA8BYAANZ4doO9AQCAhp4OAG8BAGCuM7b3lDcAIgAA5jhrc0/7EYAIAICxztxavwMAAA2dGgDeAgDAGGdv7OlvAEQAAJxrxLYO+RGACACAc4zaVL8DAAANDQsAbwEA4Dkjt3ToGwARAADHjN7Q4T8CEAEA8JgZ2znldwBEAADsM2szp/0SoAgAgPtmbuXUvwUgAgDgutkbOf2vAYoAAHhrxTYu+XcARAAAfLNqE5f9Q0AiAIDuVm7h0n8JUAQA0NXqDVz+TwGvvgAAMFuE7VseANsW40IAwAxRNi9EAGxbnAsCAKNE2rowAbBtsS4MAJwp2saFCoBti3eBAOBZEbct3AFd+vzl09fVxwAAR0Uc/lfh3gBcinzhAOCe6BsWOgC2Lf4FBID3MmxX+AO85EcCAESWYfhfhX8DcCnThQWgl2wblSoAti3fBQagvozblO6AL/mRAAArZRz+V2kP/JIQAGCmzMP/Kt2PAK6p8EEAkEOVzSlxEpe8DQBghCrD/6rUyVwSAgCcodrwvyp5UpeEAABHVB3+V6VP7pIQAGCP6sP/qsVJXhICAFzTZfhftTrZ98QAQG/dRv9S2xO/JAQAeuk8/K/aX4D3xABATUb/LRfjDjEAkJvRv82F2UkMAORg9PdxkQ4SBAAxGPxjXLQTiQKAsYz9eVzIiQQCwH0Gfp7/A5/43KC8toT3AAAAAElFTkSuQmCC">
+<style>
+  :root {
+    --bg: #fafaf9;
+    --card: #ffffff;
+    --border: #e5e5e0;
+    --text: #1c1c1a;
+    --text-muted: #78766e;
+    --accent: #3b6d11;
+    --accent-bg: #eaf3de;
+    --danger: #a32d2d;
+    --track: #e5e5e0;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1c1c1a;
+      --card: #262624;
+      --border: #3a3a37;
+      --text: #f0efe9;
+      --text-muted: #a3a199;
+      --accent: #97c459;
+      --accent-bg: #27500a;
+      --danger: #f09595;
+      --track: #3a3a37;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 1.5rem 1rem 4rem;
+    max-width: 640px;
+    margin-inline: auto;
+  }
+  h1 { font-size: 1.4rem; font-weight: 600; margin: 0 0 0.25rem; }
+  .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
+  .week-range { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .add-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 1.5rem;
+  }
+  .add-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .add-row:last-child { margin-bottom: 0; }
+  input[type=text], input[type=number] {
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+  }
+  input[type=text] { flex: 1; }
+  input[type=number] { width: 70px; }
+  label.inline {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    color: var(--text-muted);
+  }
+  button {
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    font-size: 14px;
+    cursor: pointer;
+  }
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+    font-weight: 500;
+    width: 100%;
+  }
+  .habit {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .habit.met {
+    background: var(--accent-bg);
+    border-color: var(--accent);
+  }
+  .habit-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .habit-name { font-weight: 500; font-size: 16px; }
+  .habit-goal { font-size: 12.5px; color: var(--text-muted); margin-top: 2px; }
+  .habit-goal.met { color: var(--accent); font-weight: 500; }
+  .delete-btn {
+    border: none;
+    background: none;
+    color: var(--text-muted);
+    padding: 4px 6px;
+    display: flex;
+    align-items: center;
+  }
+  .delete-btn svg { width: 18px; height: 18px; }
+  .delete-btn:hover { color: var(--danger); }
+  .progress-track {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--track);
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 4px;
+    transition: width 0.2s ease;
+  }
+  .days {
+    display: flex;
+    gap: 6px;
+  }
+  .day-cell { flex: 1; text-align: center; }
+  .day-label { font-size: 10.5px; color: var(--text-muted); margin-bottom: 4px; }
+  .day-box {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    max-width: 40px;
+    margin: 0 auto;
+  }
+  .day-box.done {
+    background: var(--accent-bg);
+    border-color: var(--accent);
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .day-box.today { border-width: 2px; }
+  .day-box.future { opacity: 0.4; cursor: default; }
+  .empty {
+    text-align: center;
+    color: var(--text-muted);
+    padding: 2rem 1rem;
+    font-size: 14px;
+  }
+  .footer-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 2rem;
+  }
+  .footer-actions button { font-size: 13px; color: var(--text-muted); }
+  #importFile { display: none; }
+  #status { text-align: center; font-size: 12.5px; color: var(--text-muted); margin-top: 10px; }
+  .stats-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 14px 16px;
+    margin-bottom: 1.5rem;
+  }
+  .stats-title { font-weight: 500; font-size: 16px; margin-bottom: 2px; }
+  .stats-subtitle { font-size: 12.5px; color: var(--text-muted); margin-bottom: 14px; }
+  .stat-row { margin-bottom: 14px; }
+  .stat-row:last-child { margin-bottom: 0; }
+  .stat-row-top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+    font-size: 13.5px;
+  }
+  .stat-swatch {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .stat-name { font-weight: 500; flex: 1; }
+  .stat-fraction { color: var(--text-muted); font-size: 12.5px; }
+  .stat-bar-track {
+    width: 100%;
+    height: 8px;
+    border-radius: 4px;
+    background: var(--track);
+    overflow: hidden;
+  }
+  .stat-bar-fill {
+    height: 100%;
+    border-radius: 4px;
+  }
+</style>
+</head>
+<body>
+
+<h1>Wekelijkse gewoontes</h1>
+<p class="week-range" id="weekRange"></p>
+
+<div id="habitList"></div>
+<div id="emptyState" class="empty" style="display:none;">Nog geen gewoontes. Voeg er hieronder een toe om te beginnen.</div>
+
+<div id="statsSection"></div>
+
+<div class="add-card">
+  <div class="add-row">
+    <input type="text" id="habitInput" placeholder="bijv. Intensieve training" maxlength="60">
+  </div>
+  <div class="add-row">
+    <label class="inline">Keer per week
+      <input type="number" id="targetInput" value="3" min="1" max="7">
+    </label>
+  </div>
+  <button class="primary" onclick="addHabit()">Gewoonte toevoegen</button>
+</div>
+
+<div class="footer-actions">
+  <button onclick="exportData()">Back-up exporteren</button>
+  <button onclick="document.getElementById('importFile').click()">Back-up importeren</button>
+  <input type="file" id="importFile" accept="application/json" onchange="importData(event)">
+</div>
+<div id="status"></div>
+
+<script>
+const STORAGE_KEY = 'habitTrackerData';
+
+function loadData() {
+  return new Promise((resolve) => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      resolve(raw ? JSON.parse(raw) : { habits: [] });
+    } catch (e) {
+      console.error('Failed to load data', e);
+      resolve({ habits: [] });
+    }
+  });
+}
+
+function saveData(data) {
+  return new Promise((resolve, reject) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      resolve();
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
+function pad(n) { return n.toString().padStart(2, '0'); }
+
+function toDateKey(d) {
+  return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+}
+
+function getWeekDates() {
+  const today = new Date();
+  const day = today.getDay(); // 0 = Sunday
+  const mondayOffset = day === 0 ? -6 : 1 - day;
+  const monday = new Date(today);
+  monday.setDate(today.getDate() + mondayOffset);
+  monday.setHours(0, 0, 0, 0);
+  const dates = [];
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    dates.push(d);
+  }
+  return dates;
+}
+
+function mondayOf(date) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const offset = day === 0 ? -6 : 1 - day;
+  d.setDate(d.getDate() + offset);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+const HABIT_COLORS = ['#1D9E75', '#D85A30', '#378ADD', '#BA7517', '#7F77DD', '#D4537E', '#639922', '#E24B4A'];
+
+function habitColor(index) {
+  return HABIT_COLORS[index % HABIT_COLORS.length];
+}
+
+function computeHabitWeeklyStats(habit) {
+  const startMonday = mondayOf(new Date(parseInt(habit.id, 10)));
+  const currentMonday = mondayOf(new Date());
+  const target = habit.target || 1;
+  let weeksTracked = 0;
+  let weeksMet = 0;
+  const cursor = new Date(startMonday);
+  while (cursor <= currentMonday) {
+    const weekDates = [];
+    for (let i = 0; i < 7; i++) {
+      const d = new Date(cursor);
+      d.setDate(cursor.getDate() + i);
+      weekDates.push(toDateKey(d));
+    }
+    const count = weekDates.filter(k => habit.log[k]).length;
+    weeksTracked++;
+    if (count >= target) weeksMet++;
+    cursor.setDate(cursor.getDate() + 7);
+  }
+  return { weeksTracked, weeksMet };
+}
+
+function renderStats(data) {
+  const container = document.getElementById('statsSection');
+  if (data.habits.length === 0) {
+    container.innerHTML = '';
+    return;
+  }
+
+  const perHabit = data.habits.map((habit, i) => {
+    const { weeksTracked, weeksMet } = computeHabitWeeklyStats(habit);
+    const rate = weeksTracked > 0 ? Math.round((weeksMet / weeksTracked) * 100) : 0;
+    return { name: habit.name, color: habitColor(i), weeksTracked, weeksMet, rate };
+  });
+
+  const totalWeeksTracked = Math.max(...perHabit.map(h => h.weeksTracked));
+
+  container.innerHTML = `
+    <div class="stats-card">
+      <div class="stats-title">Statistieken</div>
+      <div class="stats-subtitle">${totalWeeksTracked} ${totalWeeksTracked === 1 ? 'week' : 'weken'} bijgehouden</div>
+      ${perHabit.map(h => `
+        <div class="stat-row">
+          <div class="stat-row-top">
+            <span class="stat-swatch" style="background:${h.color}"></span>
+            <span class="stat-name">${escapeHtml(h.name)}</span>
+            <span class="stat-fraction">${h.weeksMet} / ${h.weeksTracked} weken (${h.rate}%)</span>
+          </div>
+          <div class="stat-bar-track">
+            <div class="stat-bar-fill" style="width:${h.rate}%; background:${h.color}"></div>
+          </div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+function addHabit() {
+  const nameInput = document.getElementById('habitInput');
+  const targetInput = document.getElementById('targetInput');
+  const name = nameInput.value.trim();
+  const target = parseInt(targetInput.value, 10) || 1;
+  if (!name) return;
+  loadData().then(data => {
+    data.habits.push({ id: Date.now().toString(), name, target: Math.min(target, 7), log: {} });
+    return saveData(data);
+  }).then(() => {
+    nameInput.value = '';
+    targetInput.value = 3;
+    render();
+  }).catch(showError);
+}
+
+function toggleDay(habitId, dateKey) {
+  loadData().then(data => {
+    const habit = data.habits.find(h => h.id === habitId);
+    if (!habit) return data;
+    if (habit.log[dateKey]) {
+      delete habit.log[dateKey];
+    } else {
+      habit.log[dateKey] = true;
+    }
+    return saveData(data);
+  }).then(render).catch(showError);
+}
+
+function deleteHabit(habitId) {
+  if (!confirm('Deze gewoonte en de geschiedenis verwijderen?')) return;
+  loadData().then(data => {
+    data.habits = data.habits.filter(h => h.id !== habitId);
+    return saveData(data);
+  }).then(render).catch(showError);
+}
+
+function exportData() {
+  loadData().then(data => {
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'habit-tracker-backup-' + toDateKey(new Date()) + '.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  });
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      const imported = JSON.parse(e.target.result);
+      if (!imported.habits) throw new Error('Ongeldig bestand');
+      if (confirm('Dit vervangt je huidige gegevens. Doorgaan?')) {
+        saveData(imported).then(render);
+      }
+    } catch (err) {
+      alert('Kon dit bestand niet lezen: ' + err.message);
+    }
+  };
+  reader.readAsText(file);
+  event.target.value = '';
+}
+
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function showError(err) {
+  console.error(err);
+  document.getElementById('status').textContent = 'Fout: ' + (err && err.message ? err.message : err);
+}
+
+window.onerror = function(message, source, lineno, colno, error) {
+  document.getElementById('status').textContent = 'Scriptfout: ' + message + ' (regel ' + lineno + ')';
+};
+
+function testStorage() {
+  try {
+    localStorage.setItem('__test__', '1');
+    localStorage.removeItem('__test__');
+    return true;
+  } catch (e) {
+    document.getElementById('status').textContent =
+      'Je browser blokkeert lokale opslag voor dit bestand (' + e.name + '). ' +
+      'Dit komt vaak voor in privé-/incognitovensters, bij strikte privacy-instellingen, of op iOS Safari bij bestanden geopend vanuit de Bestanden-app. ' +
+      'Probeer dit bestand te openen in een normaal (niet-privé) Chrome- of Firefoxvenster.';
+    return false;
+  }
+}
+
+function render() {
+  loadData().then(data => {
+    const list = document.getElementById('habitList');
+    const empty = document.getElementById('emptyState');
+    list.innerHTML = '';
+
+    const weekDates = getWeekDates();
+    const weekKeys = weekDates.map(toDateKey);
+    const todayKey = toDateKey(new Date());
+    const dayLabels = weekDates.map(d => d.toLocaleDateString('nl-NL', { weekday: 'short' })[0]);
+    const rangeLabel = weekDates[0].toLocaleDateString('nl-NL', { month: 'short', day: 'numeric' }) +
+      ' \u2013 ' + weekDates[6].toLocaleDateString('nl-NL', { month: 'short', day: 'numeric' });
+    document.getElementById('weekRange').textContent = 'Deze week: ' + rangeLabel;
+
+    if (data.habits.length === 0) {
+      empty.style.display = 'block';
+      renderStats(data);
+      return;
+    }
+    empty.style.display = 'none';
+
+    data.habits.forEach((habit, habitIndex) => {
+      const doneCount = weekKeys.filter(k => habit.log[k]).length;
+      const target = habit.target || 1;
+      const met = doneCount >= target;
+      const pct = Math.min(100, Math.round((doneCount / target) * 100));
+      const color = habitColor(habitIndex);
+
+      const el = document.createElement('div');
+      el.className = 'habit' + (met ? ' met' : '');
+      el.innerHTML = `
+        <div class="habit-top">
+          <div>
+            <div class="habit-name"><span class="stat-swatch" style="background:${color}; display:inline-block; margin-right:6px; vertical-align:2px;"></span>${escapeHtml(habit.name)}</div>
+            <div class="habit-goal ${met ? 'met' : ''}">${doneCount} / ${target} deze week${met ? ' \u2014 doel behaald' : ''}</div>
+          </div>
+          <button class="delete-btn" onclick="deleteHabit('${habit.id}')" aria-label="Gewoonte verwijderen">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+          </button>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" style="width:${pct}%"></div>
+        </div>
+        <div class="days">
+          ${weekKeys.map((k, i) => {
+            const isFuture = k > todayKey;
+            return `
+            <div class="day-cell">
+              <div class="day-label">${dayLabels[i]}</div>
+              <div class="day-box ${habit.log[k] ? 'done' : ''} ${k === todayKey ? 'today' : ''} ${isFuture ? 'future' : ''}"
+                   onclick="${isFuture ? '' : `toggleDay('${habit.id}', '${k}')`}">
+                ${habit.log[k] ? '\u2713' : ''}
+              </div>
+            </div>
+          `;
+          }).join('')}
+        </div>
+      `;
+      list.appendChild(el);
+    });
+
+    renderStats(data);
+  }).catch(showError);
+}
+
+window.addEventListener('unhandledrejection', (event) => {
+  showError(event.reason);
+});
+
+document.getElementById('habitInput').addEventListener('keydown', e => {
+  if (e.key === 'Enter') addHabit();
+});
+
+if (testStorage()) {
+  render();
+}
+</script>
+
+</body>
+</html>
