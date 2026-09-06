@@ -209,7 +209,7 @@
     flex-shrink: 0;
   }
   .stat-name { font-weight: 500; flex: 1; }
-  .stat-fraction { color: var(--text-muted); font-size: 12.5px; }
+  .stat-fraction { color: var(--text-muted); font-size: 12.5px; margin: -2px 0 6px 18px; }
   .stat-bar-track {
     width: 100%;
     height: 8px;
@@ -321,6 +321,7 @@ function computeHabitWeeklyStats(habit) {
   const target = habit.target || 1;
   let weeksTracked = 0;
   let weeksMet = 0;
+  let totalGoalPercentage = 0;
   const cursor = new Date(startMonday);
   while (cursor <= currentMonday) {
     const weekDates = [];
@@ -332,9 +333,13 @@ function computeHabitWeeklyStats(habit) {
     const count = weekDates.filter(k => habit.log[k]).length;
     weeksTracked++;
     if (count >= target) weeksMet++;
+    totalGoalPercentage += (count / target) * 100;
     cursor.setDate(cursor.getDate() + 7);
   }
-  return { weeksTracked, weeksMet };
+  const averageGoalPercentage = weeksTracked > 0
+    ? Math.round(totalGoalPercentage / weeksTracked)
+    : 0;
+  return { weeksTracked, weeksMet, averageGoalPercentage };
 }
 
 function renderStats(data) {
@@ -345,9 +350,9 @@ function renderStats(data) {
   }
 
   const perHabit = data.habits.map((habit, i) => {
-    const { weeksTracked, weeksMet } = computeHabitWeeklyStats(habit);
+    const { weeksTracked, weeksMet, averageGoalPercentage } = computeHabitWeeklyStats(habit);
     const rate = weeksTracked > 0 ? Math.round((weeksMet / weeksTracked) * 100) : 0;
-    return { name: habit.name, color: habitColor(i), weeksTracked, weeksMet, rate };
+    return { name: habit.name, color: habitColor(i), weeksTracked, weeksMet, rate, averageGoalPercentage };
   });
 
   const totalWeeksTracked = Math.max(...perHabit.map(h => h.weeksTracked));
@@ -361,8 +366,8 @@ function renderStats(data) {
           <div class="stat-row-top">
             <span class="stat-swatch" style="background:${h.color}"></span>
             <span class="stat-name">${escapeHtml(h.name)}</span>
-            <span class="stat-fraction">${h.weeksMet} / ${h.weeksTracked} weken (${h.rate}%)</span>
           </div>
+          <div class="stat-fraction">${h.weeksMet} / ${h.weeksTracked} weken behaald (${h.rate}%) · gemiddeld ${h.averageGoalPercentage}% van doel</div>
           <div class="stat-bar-track">
             <div class="stat-bar-fill" style="width:${h.rate}%; background:${h.color}"></div>
           </div>
