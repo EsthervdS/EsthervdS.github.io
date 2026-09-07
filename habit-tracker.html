@@ -49,6 +49,29 @@
   h1 { font-size: 1.4rem; font-weight: 600; margin: 0 0 0.25rem; }
   .subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem; }
   .week-range { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .week-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 1.5rem;
+  }
+  .week-nav .week-range { margin-bottom: 0; min-width: 150px; text-align: center; }
+  .nav-btn {
+    border: 1px solid var(--border);
+    background: var(--card);
+    color: var(--text);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .nav-btn svg { width: 18px; height: 18px; }
+  .nav-btn:disabled { opacity: 0.35; cursor: default; }
   .add-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -226,7 +249,15 @@
 <body>
 
 <h1>Wekelijkse gewoontes</h1>
-<p class="week-range" id="weekRange"></p>
+<div class="week-nav">
+  <button class="nav-btn" id="prevWeekBtn" onclick="changeWeek(-1)" aria-label="Vorige week">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
+  <p class="week-range" id="weekRange"></p>
+  <button class="nav-btn" id="nextWeekBtn" onclick="changeWeek(1)" aria-label="Volgende week">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+</div>
 
 <div id="habitList"></div>
 <div id="emptyState" class="empty" style="display:none;">Nog geen gewoontes. Voeg er hieronder een toe om te beginnen.</div>
@@ -284,12 +315,15 @@ function toDateKey(d) {
   return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
 }
 
-function getWeekDates() {
+let weekOffset = 0;
+
+function getWeekDates(offset) {
+  if (offset === undefined) offset = weekOffset;
   const today = new Date();
   const day = today.getDay(); // 0 = Sunday
   const mondayOffset = day === 0 ? -6 : 1 - day;
   const monday = new Date(today);
-  monday.setDate(today.getDate() + mondayOffset);
+  monday.setDate(today.getDate() + mondayOffset + offset * 7);
   monday.setHours(0, 0, 0, 0);
   const dates = [];
   for (let i = 0; i < 7; i++) {
@@ -298,6 +332,12 @@ function getWeekDates() {
     dates.push(d);
   }
   return dates;
+}
+
+function changeWeek(delta) {
+  if (weekOffset + delta > 0) return;
+  weekOffset += delta;
+  render();
 }
 
 function mondayOf(date) {
@@ -486,7 +526,9 @@ function render() {
     const dayLabels = weekDates.map(d => d.toLocaleDateString('nl-NL', { weekday: 'short' })[0]);
     const rangeLabel = weekDates[0].toLocaleDateString('nl-NL', { month: 'short', day: 'numeric' }) +
       ' \u2013 ' + weekDates[6].toLocaleDateString('nl-NL', { month: 'short', day: 'numeric' });
-    document.getElementById('weekRange').textContent = 'Deze week: ' + rangeLabel;
+    const labelPrefix = weekOffset === 0 ? 'Deze week' : (weekOffset === -1 ? 'Vorige week' : 'Week van');
+    document.getElementById('weekRange').textContent = labelPrefix + ': ' + rangeLabel;
+    document.getElementById('nextWeekBtn').disabled = weekOffset === 0;
 
     if (data.habits.length === 0) {
       empty.style.display = 'block';
@@ -508,7 +550,7 @@ function render() {
         <div class="habit-top">
           <div>
             <div class="habit-name"><span class="stat-swatch" style="background:${color}; display:inline-block; margin-right:6px; vertical-align:2px;"></span>${escapeHtml(habit.name)}</div>
-            <div class="habit-goal ${met ? 'met' : ''}">${doneCount} / ${target} deze week${met ? ' \u2014 doel behaald' : ''}</div>
+            <div class="habit-goal ${met ? 'met' : ''}">${doneCount} / ${target}${met ? ' \u2014 doel behaald' : ''}</div>
           </div>
           <button class="delete-btn" onclick="deleteHabit('${habit.id}')" aria-label="Gewoonte verwijderen">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
