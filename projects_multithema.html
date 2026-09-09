@@ -14,7 +14,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f2f7fd; co
 .logo { font-size: 40px; font-weight: 800; letter-spacing: -1.5px; line-height: 1; color: #1a1a1a; }
 
 /* ─── MATRIX OUTER (anchor for absolute band layers) ─── */
-.matrix-outer { position: relative; overflow: visible; padding-bottom: 12px; padding-right: 12px; }
+.matrix-outer { position: relative; overflow: visible; padding-bottom: 12px; padding-right: 12px; width: 783px; max-width: 100%; }
 
 /* ─── LAYER 1: COLUMN BANDS ─────────────────────────────────────────
    3 vertical strips. Start at top: 0 so they tint the header area too.
@@ -24,7 +24,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f2f7fd; co
   position: absolute;
   left: 188px;
   top: 0;
-  right: 12px;   /* align with matrix content box; matrix-outer has 12px right padding */
+  right: 12px;   /* align with the narrower matrix content box */
   bottom: 12px;  /* align with matrix content box; matrix-outer has 12px bottom padding */
   display: flex;
   gap: 8px;
@@ -45,7 +45,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f2f7fd; co
   position: absolute;
   left: -30px;   /* 30px beyond the left edge */
   top: 88px;     /* 80px header row + 8px row-gap */
-  right: 12px;   /* align with matrix content box */
+  right: 12px;   /* align with the narrower matrix content box */
   bottom: 12px;  /* align with matrix content box */
   display: flex;
   flex-direction: column;
@@ -65,7 +65,7 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f2f7fd; co
 /* ─── MATRIX GRID (transparent — sits above bands) ─── */
 .matrix {
   display: grid;
-  grid-template-columns: 180px 75px repeat(2, 1fr);
+  grid-template-columns: 180px 75px repeat(2, 260px);
   grid-template-rows: 80px 75px repeat(2, 160px);
   column-gap: 8px;
   row-gap: 8px;
@@ -296,6 +296,21 @@ body { font-family: 'Helvetica Neue', Arial, sans-serif; background: #f2f7fd; co
 .footnotes { display: flex; flex-direction: column; gap: 7px; padding-right: 40px; }
 .footnote { font-size: 18px; color: #777; line-height: 1.5; }
 .footnote strong { color: #444; }
+
+/* Keep the matrix usable on narrower screens without changing its proportions. */
+@media (max-width: 860px) {
+  .matrix-outer {
+    width: 100%;
+  }
+
+  .matrix {
+    grid-template-columns: 160px 60px repeat(2, minmax(180px, 1fr));
+  }
+
+  .col-bands-layer {
+    left: 168px;
+  }
+}
 </style>
 </head>
 <body>
